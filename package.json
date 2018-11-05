@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@google-cloud/datastore": "^2.0.0",
+    "@slack/client": "^4.8.0",
+    "dotenv": "^6.1.0"
+  }
+}
