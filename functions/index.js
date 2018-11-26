@@ -8,7 +8,7 @@ admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
 
 var listeners = {
-  reaction_added: (event) => {
+  reaction_added: async (event, callback) => {
     console.log('Reaction added:', event);
     // ignore any other reaction
     if (event.reaction !== "arigato") {
@@ -17,46 +17,38 @@ var listeners = {
 
     message = event.item
 
-    let text, toUser, fromUser;
-    getUser(event.user).then((_fromUser) => {
-      console.log("from user:", _fromUser);
-      fromUser = _fromUser;
+    try {
+      const fromUser = await getUser(event.user)
+      console.log("from user:", fromUser);
 
-      return getMessage(message.channel, message.ts)
-    }).then(({_text, _userID}) => {
-      console.log("toUserID:", _userID);
-      console.log("text:", _text);
+      const { text, userID } = await getMessage(message.channel, message.ts);
+      console.log("toUserID:", userID);
+      console.log("text:", text);
 
-      text = _text;
-      return getUser(_userID);
-    }).then((_toUser) => {
-      console.log("to user:", _toUser);
-      toUser = _toUser;
+      const toUser = await getUser(userID);
+      console.log("to user:", toUser);
 
-      return db.collection('arigato-messages').add({
+      const ref = await db.collection('arigato-messages').add({
         to_user: toUser,
         from_user: fromUser,
         message: text,
         timestamp: message.ts,
       });
-    }).then((ref) => {
+
       console.log("datastore id:", ref.id);
 
-      return slack.reactions.add({
+      const res = await slack.reactions.add({
         name: "arigato-usagi",
         channel: message.channel,
         timestamp: message.ts
-      })
-    }).then((res) => {
+      });
       console.log("reaction response:", res);
-      return;
-    }).catch((e) => {
-      // ignore already_reacted error
+    } catch(e) {
       if (e.data !== undefined && e.data.error === 'already_reacted') {
         return;
       }
-      console.log(e);
-    });
+      console.error(e);
+    }
   }
 }
 
@@ -72,9 +64,9 @@ function getMessage(ch, ts) {
         console.log(err);
         return reject(err);
       }
-      const _text = res.messages[0].text;
-      const _userID = res.messages[0].user;
-      return resolve({_text, _userID});
+      const text = res.messages[0].text;
+      const userID = res.messages[0].user;
+      return resolve({text, userID});
     });
   });
 }
@@ -101,10 +93,12 @@ exports.hook_reactions = functions.https.onRequest((request, response) => {
   }
 
   if (listeners[request.body.event.type]) {
-    listeners[request.body.event.type](request.body.event);
+    listeners[request.body.event.type](request.body.event, () => {
+      response.send("ok")
+    });
   } else {
     console.log("Event is discarded:", request.body.event.type);
   }
-  return response.send("ok");
+  return;
 });
 
