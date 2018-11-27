@@ -1,14 +1,16 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const { WebClient } = require('@slack/client');
+const moment = require('moment');
 
 const slack = new WebClient(functions.config().slack.token);
 
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
+db.settings({timestampsInSnapshots: true});
 
 var listeners = {
-  reaction_added: async (event, callback) => {
+  reaction_added: async (event) => {
     console.log('Reaction added:', event);
     // ignore any other reaction
     if (event.reaction !== "arigato") {
@@ -85,20 +87,74 @@ function getUser(userID) {
 
 exports.hook_reactions = functions.https.onRequest((request, response) => {
   if (request.body.type === "url_verification") {
-    return response.send(request.body.challenge);
+    response.send(request.body.challenge);
+    return;
   }
 
   if (request.body.type !== "event_callback") {
-    return response.send("ignore");
+    response.send("ignore");
+    return;
   }
 
   if (listeners[request.body.event.type]) {
-    listeners[request.body.event.type](request.body.event, () => {
-      response.send("ok")
+    listeners[request.body.event.type](request.body.event).then(() => {
+      return response.send("ok");
+    }).catch((e) => {
+      console.error(e);
     });
   } else {
     console.log("Event is discarded:", request.body.event.type);
   }
-  return;
 });
 
+async function sumUp() {
+  const from = moment().subtract(1, 'month');
+  const ref = db.collection('arigato-messages');
+  const rows = await ref.where('timestamp', ">=", from.valueOf().toString()).get();
+
+  let arigating = {}, arigated = {}, total = 0;
+  rows.forEach(doc => {
+    // console.log(doc.id, "=>", doc.data());
+    const { from_user, to_user } = doc.data();
+    if (from_user === to_user) {
+      return;
+    }
+    if (!arigating[from_user]) {
+      arigating[from_user] = 0;
+    }
+    arigating[from_user]++;
+
+    if (!arigated[to_user]) {
+      arigated[to_user] = 0;
+    }
+    arigated[to_user]++;
+
+    ++total
+  });
+  let arigatingList = [], arigatedList = [];
+  for (var k in arigating) {
+    arigatingList.push({ name: k, count: arigating[k] });
+  }
+  arigatingList.sort((a, b) => {
+    return b.count - a.count;
+  });
+  for (k in arigated) {
+    arigatedList.push({ name: k, count: arigated[k] });
+  }
+  arigatedList.sort((a, b) => {
+    return b.count - a.count;
+  });
+
+  console.log("arigated: ", arigatedList);
+  console.log("arigating: ", arigatingList);
+  console.log("total: ", total);
+}
+
+exports.sum_up = functions.https.onRequest((request, response) => {
+  sumUp().then(() => {
+    response.send("ok");
+    return;
+  }).catch(e => {
+    console.error(e);
+  });
+});
