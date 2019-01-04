@@ -109,6 +109,7 @@ exports.hook_reactions = functions.https.onRequest((request, response) => {
 
 async function sumUp() {
   const from = moment().subtract(1, 'month');
+  const now = moment();
   const ref = db.collection('arigato-messages');
   const rows = await ref.where('timestamp', ">=", from.valueOf().toString()).get();
 
@@ -145,6 +146,21 @@ async function sumUp() {
     return b.count - a.count;
   });
 
+  const resultMessage = `集計期間: ${from.format('YYYY/MM/DD')}-${now.format('YYYY/MM/DD')}` +
+    `\n\ntotal: ${total}:arigato:` +
+    "\n\narigated:\n" +
+    arigatedList.slice(0, 3).map(v => {
+      return `  ${v.name}: ${v.count}`
+    }).join("\n") +
+    "\n\narigating:\n" +
+    arigatingList.slice(0, 3).map(v => {
+      return `  ${v.name}: ${v.count}`
+    }).join("\n");
+  const res = await slack.chat.postMessage({
+    channel: "#general",
+    text: resultMessage
+  });
+  console.log("post message response: ", res);
   console.log("arigated: ", arigatedList);
   console.log("arigating: ", arigatingList);
   console.log("total: ", total);
