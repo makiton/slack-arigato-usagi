@@ -30,17 +30,22 @@ var listeners = {
       const toUser = await getUser(userID);
       console.log("to user:", toUser);
 
+      let reaction = "arigato-usagi";
+      if (Math.random() <= 0.01) {
+        reaction = "great-arigato-usagi";
+      }
+
       const ref = await db.collection('arigato-messages').add({
         to_user: toUser,
         from_user: fromUser,
         message: text,
         timestamp: message.ts,
+        reaction: reaction,
       });
-
       console.log("datastore id:", ref.id);
 
       const res = await slack.reactions.add({
-        name: "arigato-usagi",
+        name: reaction,
         channel: message.channel,
         timestamp: message.ts
       });
