@@ -16,7 +16,7 @@
     "@google-cloud/datastore": "^2.0.0",
     "@slack/client": "^4.8.0",
     "dotenv": "^6.1.0",
-    "firebase-admin": "~6.0.0",
+    "firebase-admin": "~9.4.0",
     "firebase-functions": "^2.1.0",
     "moment": "^2.22.2"
   },
