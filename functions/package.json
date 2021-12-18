@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@google-cloud/datastore": "4.0.0",
-    "@slack/client": "5.0.0",
+    "@slack/client": "5.0.2",
     "dotenv": "6.1.0",
     "firebase-admin": "9.4.2",
     "firebase-functions": "2.1.0",
