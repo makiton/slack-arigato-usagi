@@ -3,6 +3,6 @@
     "@google-cloud/datastore": "5.1.0",
     "@slack/client": "5.0.2",
     "dotenv": "10.0.0",
-    "firebase-tools": "7.16.2"
+    "firebase-tools": "8.20.0"
   }
 }
