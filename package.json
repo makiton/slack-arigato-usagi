@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@google-cloud/datastore": "4.5.2",
+    "@google-cloud/datastore": "5.1.0",
     "@slack/client": "5.0.2",
     "dotenv": "10.0.0",
     "firebase-tools": "6.12.0"

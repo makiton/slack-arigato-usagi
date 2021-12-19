@@ -2,39 +2,39 @@
 # yarn lockfile v1
 
 
-"@google-cloud/datastore@4.5.2":
-  version "4.5.2"
-  resolved "https://registry.yarnpkg.com/@google-cloud/datastore/-/datastore-4.5.2.tgz#b1f9300ca2de91bcfd5783f54354411ece1446bc"
-  integrity sha512-dILePgHiA14/6l47XrsTjQqGhZVtznrqg3Q3ent5jOhL+0QGGokY+Y3OtYTQ1yCAfUg/ZcwjLY1s2MBbrHqnog==
+"@google-cloud/datastore@5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/datastore/-/datastore-5.1.0.tgz#ebf7ada687ad0372fbc0f7f48cfefa27af2d52c3"
+  integrity sha512-zPGWHrYqtWXZC6eOe32p/IlwyYSt3E/2Ac47DzXiHj6+Ir5fotuwtwNcNhJ2mxIUF24dZAo1CJT1uXchYVW03g==
   dependencies:
-    "@google-cloud/projectify" "^1.0.0"
-    "@google-cloud/promisify" "^1.0.0"
-    "@grpc/grpc-js" "0.6.11"
+    "@google-cloud/projectify" "^1.0.4"
+    "@google-cloud/promisify" "^1.0.4"
+    "@grpc/grpc-js" "0.7.0"
     "@types/duplexify" "^3.6.0"
-    "@types/long" "^4.0.0"
+    "@types/long" "^4.0.1"
     arrify "^2.0.1"
     concat-stream "^2.0.0"
     extend "^3.0.2"
-    google-auth-library "^5.0.0"
-    google-gax "^1.7.5"
+    google-auth-library "^5.10.1"
+    google-gax "^1.14.2"
     is "^3.3.0"
     split-array-stream "^2.0.0"
     stream-events "^1.0.5"
 
-"@google-cloud/projectify@^1.0.0":
+"@google-cloud/projectify@^1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@google-cloud/projectify/-/projectify-1.0.4.tgz#28daabebba6579ed998edcadf1a8f3be17f3b5f0"
   integrity sha512-ZdzQUN02eRsmTKfBj9FDL0KNDIFNjBn/d6tHQmA/+FImH5DO6ZV8E7FzxMgAUiVAUq41RFAkb25p1oHOZ8psfg==
 
-"@google-cloud/promisify@^1.0.0":
+"@google-cloud/promisify@^1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-1.0.4.tgz#ce86ffa94f9cfafa2e68f7b3e4a7fad194189723"
   integrity sha512-VccZDcOql77obTnFh0TbNED/6ZbbmHDf8UMNnzO1d5g9V0Htfm4k5cllY8P1tJsRKC3zWYGRLaViiupcgVjBoQ==
 
-"@grpc/grpc-js@0.6.11":
-  version "0.6.11"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.6.11.tgz#24ef6c67dc92793f6c2fefe64ded532ff96b78fb"
-  integrity sha512-ZVTP12Ry/+quOe/deAxaoAowQ/H0JwuQfmZE7xyOeo5X0KFqLnDAg9tLfDxsfLX5AJJzHYYRgGFajTWYRWgt5Q==
+"@grpc/grpc-js@0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.7.0.tgz#0dd92392e162e24c7369a21bd46e5d802ee70e05"
+  integrity sha512-OnFiBKbjRh/mmOJzpd2ONt5W77MYLyOf5jDKdeLaocdoLIxcc3R/iboFkWm7+3pmlZWa+IqFgqYGzAmuNxNxOw==
   dependencies:
     semver "^6.2.0"
 
@@ -1818,7 +1818,7 @@ google-auth-library@^0.10.0:
     lodash.noop "^3.0.1"
     request "^2.74.0"
 
-google-auth-library@^5.0.0:
+google-auth-library@^5.0.0, google-auth-library@^5.10.1:
   version "5.10.1"
   resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-5.10.1.tgz#504ec75487ad140e68dd577c21affa363c87ddff"
   integrity sha512-rOlaok5vlpV9rSiUu5EpR0vVpc+PhN62oF4RyX/6++DG1VsaulAFEMlDYBLjJDDPI6OcNOCGAKy9UVB/3NIDXg==
@@ -1843,7 +1843,7 @@ google-auto-auth@^0.7.2:
     google-auth-library "^0.10.0"
     request "^2.79.0"
 
-google-gax@^1.7.5:
+google-gax@^1.14.2:
   version "1.15.4"
   resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-1.15.4.tgz#dc37dea2a8c58717cd50db40f01b21cbf9da7739"
   integrity sha512-Wzl43ueWEKNsLcMJ33sPps179nD7wn6Jcl/P+ZQNS+HxdCJcoQEgJe3AmulsJnatwjBE3pVPIE4HFJNhpRGvUw==
